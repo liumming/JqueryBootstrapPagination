@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+<script src="bootstrap/js/jquery.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="bootstrap/js/json.js"></script>
+<script src="scripts/stationaries.js"></script>
+<script src="paginator/paginator.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<script type="text/javascript">
+var numberOfPagesToShowInPaginationBar=3;
+var numberOfRecordsInAPage = 4;
+
+$(document).ready(function() {
+fillTable(stationaries,0);
+
+//pagination script start
+  
+ var options = {
+	  //    currentPage:3, to set the current page.. Default current page is 1
+              totalPages:(stationaries.length/numberOfRecordsInAPage),  //Defines the upper limit of page range in Pagination Bar
+	      onPageClicked:function(e,originalEvent,type,page){
+		     // alert("Page "+page+" is clicked");
+		      },
+	      onPageChanged:function(e,oldPage,newPage){
+		    // alert(" page changed from page:"+oldPage+" to new Page :"+newPage);
+		    removeRowsFromTable('stationaryTable');
+		    fillTable(stationaries,newPage); 
+		      } 	      
+	 };
+	 $("#paginationBar").bootstrapPaginator(options);
+//pagination script end
+
+});
+
+
+
+function fillTable(data,pageNumber){
+       var lowerBound,upperBound;
+       if(pageNumber==0){
+          lowerBound = 0;
+	  upperBound = numberOfRecordsInAPage-1;
+	 }else{
+	  lowerBound = (pageNumber - 1)* numberOfRecordsInAPage ;
+	  upperBound = (pageNumber * numberOfRecordsInAPage)-1;
+	  }
+        
+         for(var i=lowerBound;i<=upperBound;i++)
+	{
+			var tableRow="<tr>"
+		+"<td><input type='checkbox' class='check' id='"+data[i].id+"'></td>"
+		+"<td>"+data[i].stationary+"</td>"
+		+"<td>"+data[i].quantity+"</td>";
+
+                $(tableRow).appendTo("#stationaryTable tbody");
+
+	}//for 
+}//fillTable
+
+function removeRowsFromTable(tableId){
+	var elementTable = document.getElementById(tableId);
+	var tableRows = elementTable.getElementsByTagName('tr');
+	var rowCount= tableRows.length;
+	for(var x = rowCount-1;x>0;x--){
+		        tableRows[x].parentNode.removeChild(tableRows[x]);    
+	}
+
+	}
+
+  </script>
+<style type="text/css">
+body {
+	padding-top: 60px;
+	/* padding-bottom: 40px;*/
+}
+</style>
+
+<title>Employee Home</title>
+</head>
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+
+	<div class="navbar-inner">
+	        <div class="container">
+	          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="brand" href="./index.html">Bootstrap</a>
+	          <div class="nav-collapse collapse">
+	            <ul class="nav">
+	              <li class="">
+	                <a href="./index.html">Home</a>
+	              </li>
+	              <li class="">
+	                <a href="./getting-started.html">Get started</a>
+	              </li>
+	              <li class="">
+	                <a href="./scaffolding.html">Scaffolding</a>
+	              </li>
+	              <li class="active">
+	                <a href="./base-css.html">Base CSS</a>
+	              </li>
+	              <li class="">
+	                <a href="./components.html">Components</a>
+	              </li>
+	              <li class="">
+	                <a href="./javascript.html">JavaScript</a>
+	              </li>
+	              <li class="">
+	                <a href="./customize.html">Customize</a>
+	              </li>
+	            </ul>
+            
+	         </div>
+	        </div>
+	      </div>
+
+	    </div>
+    
+    
+		<div class="container">
+				<!-- Example row of columns -->
+				<div class="row">
+					<div class="span2 bs-docs-sidebar">
+						<ul class="nav nav-tabs nav-stacked">
+							<li><a href="#download-bootstrap"> Download</a></li>
+							<li><a href="#file-structure"> File structure</a></li>
+							<li><a href="#contents"> What's included</a></li>
+							<li><a href="#html-template"> HTML template</a></li>
+							<li class=""><a href="#examples"> Examples</a></li>
+							<li class=""><a href="#what-next"> What next?</a></li>
+						</ul>
+					</div>
+					<div class="span9">
+						<h3>Requisition History</h3>
+						<table id="stationaryTable" class="table table-hover">
+		              <thead>
+		                <tr>
+		                  <th><input type="checkbox" id="checkAll"></th>
+		                  <th>Stationary</th>
+		                  <th>Quantity</th>
+		                </tr>
+		              </thead>
+		              <tbody>
+		              </tbody>
+		            </table>
+						<div id="paginationBar"></div>
+				
+				
+					</div>
+				</div>
+
+
+			</div>
+			<!-- /container -->
+		<!--	<script src="bootstrap/js/jquery.js"></script>
+			<script src="bootstrap/js/bootstrap.js"></script>-->
+
+ 
+		</body>
+		</html>    
+    
+
